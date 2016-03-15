@@ -1,0 +1,12 @@
+--- Minecraft.java	2016-03-15 13:53:42.000000000 +0700
++++ Minecraft.java	2016-03-15 13:55:09.000000000 +0700
+@@ -584,6 +584,9 @@
+         this.guiAchievement = new GuiAchievement(this);
+         GlStateManager.viewport(0, 0, this.displayWidth, this.displayHeight);
+         this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
++        logger.info("Injecting AML (AbstractModLoader) into Minecraft...");
++        Launch.launch();
++        logger.info("AML has been injected. Passing instance to Minecraft...");
+         this.checkGLError("Post startup");
+         this.ingameGUI = new GuiIngame(this);
+ 
