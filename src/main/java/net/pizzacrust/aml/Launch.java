@@ -7,6 +7,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.reflections.Reflections;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.Set;
 
 /**
@@ -19,6 +21,17 @@ public class Launch {
         Logger logger = LogManager.getLogger("AML");
 
         logger.info("Connected to Log4j!");
+
+        logger.info("Checking for a mods folder...");
+        File modsFolder = new File(System.getProperty("user.dir"), "mods");
+        if(!modsFolder.exists()) {
+            logger.info("Mods folder doesn't exist. Creating one...");
+            modsFolder.mkdir();
+            logger.info("Folder has been created. Continuing launch.");
+        } else {
+            logger.info("Mods folder has been identified. Continuing launch.");
+        }
+
         logger.info("Checking for a MinecraftServer class...");
 
         try {
@@ -39,6 +52,14 @@ public class Launch {
             return;
         }
         logger.info("Detected Minecraft Version: " + minecraftVersion);
+
+        logger.info("Identifying all mods in the /mods directory...");
+        File[] mods = modsFolder.listFiles(new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".jar");
+            }
+        });
+        logger.info("Mods have been identified. (amount: " + mods.length + ")");
 
         logger.info("Finding correct mod loader for version specified...");
         Reflections reflections = new Reflections("net.pizzacrust");
