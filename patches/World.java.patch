@@ -1,6 +1,15 @@
---- World.java	2016-03-15 12:51:59.000000000 +0700
-+++ World.java	2016-03-15 20:06:04.000000000 +0700
-@@ -60,6 +60,8 @@
+--- original.java	2016-03-15 12:51:59.000000000 +0700
++++ World.java	2016-03-15 20:29:57.000000000 +0700
+@@ -19,6 +19,8 @@
+ import net.minecraft.crash.CrashReportCategory;
+ import net.minecraft.entity.Entity;
+ import net.minecraft.entity.EntityLiving;
++import net.minecraft.entity.SharedMonsterAttributes;
++import net.minecraft.entity.ai.attributes.AttributeModifier;
+ import net.minecraft.entity.player.EntityPlayer;
+ import net.minecraft.entity.player.EntityPlayerMP;
+ import net.minecraft.init.Biomes;
+@@ -60,6 +62,8 @@
  {
      private int seaLevel = 63;
  
@@ -9,7 +18,76 @@
      /**
       * boolean; if true updates scheduled by scheduleBlockUpdate happen immediately
       */
-@@ -167,6 +169,14 @@
+@@ -153,7 +157,67 @@
+ 
+     protected World(ISaveHandler saveHandlerIn, WorldInfo info, WorldProvider providerIn, Profiler profilerIn, boolean client)
+     {
+-        this.worldAccesses = Lists.newArrayList(new IWorldEventListener[] {this.pathListener});
++        this.worldAccesses = Lists.newArrayList(new IWorldEventListener[] {this.pathListener, new IWorldEventListener() {
++            @Override
++            public void notifyBlockUpdate(World worldIn, BlockPos pos, IBlockState oldState, IBlockState newState, int flags) {
++
++            }
++
++            @Override
++            public void notifyLightSet(BlockPos pos) {
++
++            }
++
++            @Override
++            public void markBlockRangeForRenderUpdate(int x1, int y1, int z1, int x2, int y2, int z2) {
++
++            }
++
++            @Override
++            public void func_184375_a(EntityPlayer player, SoundEvent soundIn, SoundCategory category, double x, double y, double z, float volume, float pitch) {
++
++            }
++
++            @Override
++            public void func_184377_a(SoundEvent soundIn, BlockPos pos) {
++
++            }
++
++            @Override
++            public void spawnParticle(int particleID, boolean ignoreRange, double xCoord, double yCoord, double zCoord, double xOffset, double yOffset, double zOffset, int... parameters) {
++
++            }
++
++            @Override
++            public void onEntityAdded(Entity entityIn) {
++                if(entityIn instanceof EntityPlayer) {
++                    if (!World.isNewCombat()) {
++                        EntityPlayerMP player = (EntityPlayerMP) entityIn;
++                        player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.ATTACK_SPEED).applyModifier(new AttributeModifier("Attack speed", 9.9999999E7D, 0));
++                    }
++                }
++            }
++
++            @Override
++            public void onEntityRemoved(Entity entityIn) {
++
++            }
++
++            @Override
++            public void broadcastSound(int soundID, BlockPos pos, int data) {
++
++            }
++
++            @Override
++            public void playAuxSFX(EntityPlayer player, int sfxType, BlockPos blockPosIn, int data) {
++
++            }
++
++            @Override
++            public void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress) {
++
++            }
++        }});
+         this.theCalendar = Calendar.getInstance();
+         this.worldScoreboard = new Scoreboard();
+         this.spawnHostileMobs = true;
+@@ -167,6 +231,14 @@
          this.worldBorder = providerIn.getWorldBorder();
      }
  
