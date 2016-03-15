@@ -1,7 +1,11 @@
 package net.pizzacrust.aml.abstraction;
 
+import java.io.File;
+
 /**
- * Created by hdl on 3/15/16.
+ * An abstract mod loader class that defines what a mod loader class requires.
+ * This should be version-specific on how the mods are loaded.
  */
 public interface AbstractModLoader {
+    void load(File mod) throws Exception;
 }
