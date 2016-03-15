@@ -85,6 +85,9 @@ public class Launch {
         logger.info("Passing instance -> mod loader...");
         try {
             loader = (AbstractModLoader) modLoader.newInstance();
+            for (File modFile : mods) {
+                loader.load(modFile);
+            }
         } catch (Exception e) {
             logger.error("Failed to pass instance to mod loader.");
             e.printStackTrace();
