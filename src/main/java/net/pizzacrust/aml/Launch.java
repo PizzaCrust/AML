@@ -1,8 +1,13 @@
 package net.pizzacrust.aml;
 
 import net.minecraft.server.MinecraftServer;
+import net.pizzacrust.aml.abstraction.AbstractModLoader;
+import net.pizzacrust.aml.meta.VersionModLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.reflections.Reflections;
+
+import java.util.Set;
 
 /**
  * Launches the abstract mod loader accordingly to the client's version.
@@ -31,6 +36,31 @@ public class Launch {
         if (minecraftVersion == null) {
             logger.error("Minecraft version is invalid? Minecraft version is null.");
             logger.error("Incompatible client with AML.");
+            return;
+        }
+        logger.info("Detected Minecraft Version: " + minecraftVersion);
+
+        logger.info("Finding correct mod loader for version specified...");
+        Reflections reflections = new Reflections("net.pizzacrust");
+        Class<?> modLoader = null;
+        Set<Class<?>> versionModLoaders = reflections.getTypesAnnotatedWith(VersionModLoader.class);
+        for (Class<?> modLoaderClass : versionModLoaders) {
+            VersionModLoader annotation = (VersionModLoader) modLoaderClass.getAnnotation(VersionModLoader.class);
+            if (annotation.value().equals(minecraftVersion)) {
+                logger.info("Mod loader has been found for version specified!");
+                modLoader = modLoaderClass;
+            }
+        }
+        if (modLoader == null) {
+            logger.error("Mod loader for version specified wasn't found. This version of AML isn't compatible with this version of Minecraft.");
+            return;
+        }
+        logger.info("Passing instance -> mod loader...");
+        try {
+            AbstractModLoader loader = (AbstractModLoader) modLoader.newInstance();
+        } catch (Exception e) {
+            logger.error("Failed to pass instance to mod loader.");
+            e.printStackTrace();
             return;
         }
     }
