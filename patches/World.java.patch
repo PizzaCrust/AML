@@ -1,0 +1,26 @@
+--- World.java	2016-03-15 12:51:59.000000000 +0700
++++ World.java	2016-03-15 20:06:04.000000000 +0700
+@@ -60,6 +60,8 @@
+ {
+     private int seaLevel = 63;
+ 
++    private static boolean newCombat = true;
++
+     /**
+      * boolean; if true updates scheduled by scheduleBlockUpdate happen immediately
+      */
+@@ -167,6 +169,14 @@
+         this.worldBorder = providerIn.getWorldBorder();
+     }
+ 
++    public static boolean isNewCombat() {
++        return newCombat;
++    }
++
++    public static void setNewCombat(boolean flag) {
++        newCombat = flag;
++    }
++
+     public World init()
+     {
+         return this;
