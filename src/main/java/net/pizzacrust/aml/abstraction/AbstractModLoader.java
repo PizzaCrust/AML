@@ -7,5 +7,7 @@ import java.io.File;
  * This should be version-specific on how the mods are loaded.
  */
 public interface AbstractModLoader {
+    MainMenuOptions customizeMainMenu();
+
     void load(File mod) throws Exception;
 }

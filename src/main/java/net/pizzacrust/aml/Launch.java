@@ -15,6 +15,12 @@ import java.util.Set;
  * Launches the abstract mod loader accordingly to the client's version.
  */
 public class Launch {
+    private static AbstractModLoader loader;
+
+    public static AbstractModLoader getLoader() {
+        return loader;
+    }
+
     public static void launch() {
         System.out.println("Retrieving AML's logger...");
 
@@ -78,7 +84,7 @@ public class Launch {
         }
         logger.info("Passing instance -> mod loader...");
         try {
-            AbstractModLoader loader = (AbstractModLoader) modLoader.newInstance();
+            loader = (AbstractModLoader) modLoader.newInstance();
         } catch (Exception e) {
             logger.error("Failed to pass instance to mod loader.");
             e.printStackTrace();

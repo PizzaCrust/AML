@@ -1,0 +1,31 @@
+--- GuiMainMenu.java	2016-03-15 14:27:45.000000000 +0700
++++ GuiMainMenu.java	2016-03-15 15:12:41.000000000 +0700
+@@ -28,6 +28,8 @@
+ import net.minecraft.world.demo.DemoWorldServer;
+ import net.minecraft.world.storage.ISaveFormat;
+ import net.minecraft.world.storage.WorldInfo;
++import net.pizzacrust.aml.Launch;
++import net.pizzacrust.aml.abstraction.MainMenuOptions;
+ import org.apache.commons.io.Charsets;
+ import org.apache.commons.io.IOUtils;
+ import org.apache.logging.log4j.LogManager;
+@@ -569,8 +571,19 @@
+         }
+ 
+         this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
++        String modLoaderName = "Vanilla Mod Loader";
++        int loadedMods = 0;
++        if (!(Launch.getLoader() == null)) {
++            modLoaderName = Launch.getLoader().customizeMainMenu().getModLoaderName();
++            loadedMods = Launch.getLoader().customizeMainMenu().getLoadedModsAmount();
++        }
++        String loadedModsString = " " + loadedMods + " mods are loaded.";
++        this.drawString(this.fontRendererObj, modLoaderName, 2, this.height - 30, -1);
++        this.drawString(this.fontRendererObj, loadedModsString, 2, this.height - 20, 0xAAAAAA);
+         String s1 = "Copyright Mojang AB. Do not distribute!";
+         this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
++        String amlString = "Abstract Mod Loader (AML)";
++        this.drawString(this.fontRendererObj, amlString, this.width - this.fontRendererObj.getStringWidth(amlString) - 2, this.height - 20, -1);
+ 
+         if (this.openGLWarning1 != null && !this.openGLWarning1.isEmpty())
+         {
