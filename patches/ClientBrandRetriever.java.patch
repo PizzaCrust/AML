@@ -1,0 +1,10 @@
+--- ClientBrandRetriever.java	2016-03-15 12:51:58.000000000 +0700
++++ ClientBrandRetriever.java	2016-03-15 18:35:28.000000000 +0700
+@@ -4,6 +4,6 @@
+ {
+     public static String getClientModName()
+     {
+-        return "vanilla";
++        return "aml-loader";
+     }
+ }
